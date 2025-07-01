@@ -1395,7 +1395,7 @@
                               {item.note && <p className="text-gray-600 mb-4 leading-relaxed">{item.note}</p>}
                               
                               {item.subItems ? (
-                                <div className="space-y-4">
+                                <div className="space-y-4 stable-layout">
                                   {item.subItems.map(subItem => (
                                     <div key={subItem.id} className="flex justify-between items-center bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border-2 border-purple-100">
                                       <div className="flex-grow">
@@ -1461,13 +1461,13 @@
                   ) : (
                     <div className="space-y-6">
                       {selectedServices.map((service, index) => (
-                        <div key={service.id} className="border-2 border-purple-200 rounded-2xl p-4 bg-gradient-to-r from-white to-purple-50 animate-fade-in">
+                        <div key={service.id} className="border-2 border-purple-200 rounded-2xl p-4 bg-gradient-to-r from-white to-purple-50 animate-fade-in min-h-0">
                           <div className="flex justify-between items-start mb-4">
-                            <h3 className="font-semibold text-gray-800 leading-tight text-sm">
+                            <h3 className="font-semibold text-gray-800 leading-tight text-sm flex-grow pr-2">
                               {service.parentName ? `${service.parentName} - ${service.name}` : service.name}
                             </h3>
                             <button
-                              className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-xl transition-all icon-hover"
+                              className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-xl transition-all icon-hover flex-shrink-0"
                               onClick={() => handleRemoveService(service.id)}
                             >
                               ❌
@@ -1543,22 +1543,22 @@
                                 <span className="icon-hover">📦</span>
                                 <span>Количество:</span>
                               </label>
-                              <div className="flex items-center">
+                              <div className="flex items-center bg-white rounded-xl border-2 border-purple-200 overflow-hidden">
                                 <button
-                                  className="bg-purple-200 hover:bg-purple-300 px-4 py-3 rounded-l-xl font-bold transition-all text-purple-700"
+                                  className="bg-purple-200 hover:bg-purple-300 px-4 py-3 font-bold transition-all text-purple-700 flex-shrink-0"
                                   onClick={() => handleQuantityChange(service.id, service.quantity - 1)}
                                 >
                                   ➖
                                 </button>
                                 <input
                                   type="number"
-                                  className="w-20 text-center border-t-2 border-b-2 border-purple-200 py-3 font-bold text-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                  className="quantity-input border-0 py-3 font-bold text-lg focus:outline-none focus:ring-0 bg-white flex-shrink-0"
                                   value={service.quantity}
                                   onChange={(e) => handleQuantityChange(service.id, parseInt(e.target.value) || 1)}
                                   min="1"
                                 />
                                 <button
-                                  className="bg-purple-200 hover:bg-purple-300 px-4 py-3 rounded-r-xl font-bold transition-all text-purple-700"
+                                  className="bg-purple-200 hover:bg-purple-300 px-4 py-3 font-bold transition-all text-purple-700 flex-shrink-0"
                                   onClick={() => handleQuantityChange(service.id, service.quantity + 1)}
                                 >
                                   ➕
@@ -1588,36 +1588,42 @@
                                     value={service.customPrice.current}
                                     onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value), 'current')}
                                   />
-                                  <div className="flex items-center space-x-3">
-                                    <label className="text-sm font-bold text-gray-700 whitespace-nowrap">Цена:</label>
+                                  <div className="grid grid-cols-12 gap-2 items-center">
+                                    <label className="col-span-3 text-sm font-bold text-gray-700">Цена:</label>
                                     <input
                                       type="number"
-                                      className="flex-grow text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all font-bold"
+                                      className="col-span-8 text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all font-bold price-input"
                                       value={service.customPrice.current}
                                       onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'current')}
                                       min={service.customPrice.min}
                                       max={service.customPrice.max}
                                     />
-                                    <span className="text-sm font-bold text-purple-600">₽</span>
+                                    <span className="col-span-1 text-sm font-bold text-purple-600 text-center">₽</span>
                                   </div>
                                   <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                      <label className="block text-xs font-bold text-gray-600 mb-1">Мин:</label>
-                                      <input
-                                        type="number"
-                                        className="w-full text-xs p-2 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                        value={service.customPrice.min}
-                                        onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'min')}
-                                      />
+                                      <label className="block text-xs font-bold text-gray-600 mb-1">Мин. цена:</label>
+                                      <div className="flex items-center">
+                                        <input
+                                          type="number"
+                                          className="w-full text-xs p-2 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all price-input"
+                                          value={service.customPrice.min}
+                                          onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'min')}
+                                        />
+                                        <span className="ml-1 text-xs text-gray-500">₽</span>
+                                      </div>
                                     </div>
                                     <div>
-                                      <label className="block text-xs font-bold text-gray-600 mb-1">Макс:</label>
-                                      <input
-                                        type="number"
-                                        className="w-full text-xs p-2 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
-                                        value={service.customPrice.max}
-                                        onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'max')}
-                                      />
+                                      <label className="block text-xs font-bold text-gray-600 mb-1">Макс. цена:</label>
+                                      <div className="flex items-center">
+                                        <input
+                                          type="number"
+                                          className="w-full text-xs p-2 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all price-input"
+                                          value={service.customPrice.max}
+                                          onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'max')}
+                                        />
+                                        <span className="ml-1 text-xs text-gray-500">₽</span>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -1635,7 +1641,7 @@
                                   type="text"
                                   inputMode="numeric"
                                   pattern="[0-9]*"
-                                  className="w-full text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all font-bold"
+                                  className="w-full text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all font-bold price-input stable-layout"
                                   placeholder="Введите стоимость"
                                   value={service.customPrice}
                                   onChange={(e) => handleCustomPriceChange(service.id, e.target.value)}
@@ -1665,17 +1671,17 @@
                                     value={service.manualPrice || (service.lowerPrice + service.upperPrice) / 2}
                                     onChange={(e) => handleManualPriceChange(service.id, parseInt(e.target.value))}
                                   />
-                                  <div className="flex items-center space-x-3">
-                                    <label className="text-sm font-bold text-gray-700 whitespace-nowrap">Цена:</label>
+                                  <div className="grid grid-cols-12 gap-2 items-center">
+                                    <label className="col-span-3 text-sm font-bold text-gray-700">Цена:</label>
                                     <input
                                       type="number"
-                                      className="flex-grow text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all font-bold"
+                                      className="col-span-8 text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all font-bold price-input"
                                       value={service.manualPrice || (service.lowerPrice + service.upperPrice) / 2}
                                       onChange={(e) => handleManualPriceChange(service.id, parseInt(e.target.value) || service.lowerPrice)}
                                       min={service.lowerPrice}
                                       max={service.upperPrice}
                                     />
-                                    <span className="text-sm font-bold text-purple-600">₽</span>
+                                    <span className="col-span-1 text-sm font-bold text-purple-600 text-center">₽</span>
                                   </div>
                                 </div>
                               </div>
@@ -1747,4 +1753,4 @@
     ReactDOM.render(<ServiceCalculator />, document.getElementById('root'));
   </script>
 </body>
-</html>
+  </html>
