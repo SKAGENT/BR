@@ -14,26 +14,317 @@
   <script src="https://cdn.tailwindcss.com"></script>
   
   <style>
-    /* Дополнительные стили если нужны */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+    
+    /* Кастомные стили для слайдеров */
+    .custom-range {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 8px;
+      border-radius: 4px;
+      background: linear-gradient(to right, #e2e8f0 0%, #e2e8f0 100%);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    
     .custom-range::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      background: #3b82f6;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       cursor: pointer;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      transition: all 0.3s ease;
+      border: 3px solid white;
     }
+    
+    .custom-range::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+    }
+    
     .custom-range::-moz-range-thumb {
-      width: 16px;
-      height: 16px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      background: #3b82f6;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    }
+    
+    /* Анимации */
+    @keyframes slideInUp {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+      40%, 43% { transform: translateY(-10px); }
+      70% { transform: translateY(-5px); }
+    }
+    
+    .animate-slide-up {
+      animation: slideInUp 0.6s ease-out;
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out;
+    }
+    
+    .animate-pulse-custom {
+      animation: pulse 2s infinite;
+    }
+    
+    .animate-bounce-custom {
+      animation: bounce 1s infinite;
+    }
+    
+    /* Градиентные кнопки */
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+    }
+    
+    .btn-success:hover {
+      background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(72, 187, 120, 0.5);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+    }
+    
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(245, 101, 101, 0.5);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+      transition: all 0.4s ease;
+      box-shadow: 0 4px 15px rgba(160, 174, 192, 0.3);
+    }
+    
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(160, 174, 192, 0.5);
+    }
+    
+    /* Карточки */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s ease;
+    }
+    
+    .glass-card:hover {
+      background: rgba(255, 255, 255, 0.98);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .service-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s ease;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+      border-color: rgba(102, 126, 234, 0.3);
+    }
+    
+    .service-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    /* Категории */
+    .category-btn {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    
+    .category-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .category-btn:hover::before {
+      left: 100%;
+    }
+    
+    /* Заголовок */
+    .header-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header-gradient::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    }
+    
+    /* Селекты */
+    .custom-select {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23667eea' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .custom-select:focus {
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+      border-color: #667eea;
+    }
+    
+    /* Уведомления */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      animation: slideInUp 0.5s ease-out;
+    }
+    
+    /* Эффект для текста предложения */
+    .proposal-text {
+      white-space: pre-line;
+      line-height: 1.8;
+      letter-spacing: 0.3px;
+    }
+    
+    /* Мерцающий эффект для цены */
+    .price-glow {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+    }
+    
+    /* Эффект стекла для корзины */
+    .cart-glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Hover эффекты для иконок */
+    .icon-hover {
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    .icon-hover:hover {
+      transform: scale(1.2) rotate(5deg);
+    }
+    
+    /* Анимация для кнопок */
+    .btn-animate {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-animate::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .btn-animate:active::after {
+      width: 300px;
+      height: 300px;
     }
   </style>
 </head>
-<body class="bg-gray-50">
+<body class="min-h-screen">
   <div id="root"></div>
 
   <script type="text/babel">
@@ -47,6 +338,7 @@
       const [isPriceListVisible, setIsPriceListVisible] = React.useState(false);
       const [showProposal, setShowProposal] = React.useState(false);
       const [proposalText, setProposalText] = React.useState('');
+      const [notification, setNotification] = React.useState('');
       const proposalRef = React.useRef(null);
 
       React.useEffect(() => {
@@ -54,6 +346,8 @@
         const servicesData = [
           {
             category: 'СРО',
+            icon: '🏢',
+            color: 'from-blue-500 to-purple-600',
             items: [
               {
                 id: 'sro1',
@@ -84,6 +378,8 @@
           },
           {
             category: 'НРС',
+            icon: '👥',
+            color: 'from-green-500 to-teal-600',
             items: [
               {
                 id: 'nrs1',
@@ -154,6 +450,8 @@
           },
           {
             category: 'НОК',
+            icon: '🎓',
+            color: 'from-yellow-500 to-orange-600',
             items: [
               {
                 id: 'nok1',
@@ -361,6 +659,8 @@
           },
           {
             category: 'Обучения',
+            icon: '📚',
+            color: 'from-indigo-500 to-blue-600',
             items: [
               {
                 id: 'edu1',
@@ -463,6 +763,8 @@
           },
           {
             category: 'Лицензирование',
+            icon: '📋',
+            color: 'from-purple-500 to-pink-600',
             items: [
               {
                 id: 'lic1',
@@ -504,6 +806,8 @@
           },
           {
             category: 'ISO',
+            icon: '🏆',
+            color: 'from-red-500 to-orange-600',
             items: [
               {
                 id: 'iso1',
@@ -531,6 +835,8 @@
           },
           {
             category: 'ВИК',
+            icon: '🔬',
+            color: 'from-teal-500 to-cyan-600',
             items: [
               {
                 id: 'vik1',
@@ -548,6 +854,8 @@
           },
           {
             category: 'СОУТ',
+            icon: '🛡️',
+            color: 'from-gray-500 to-slate-600',
             items: [
               {
                 id: 'sout1',
@@ -630,6 +938,11 @@
         setTotalPrice(total);
       }, [selectedServices]);
 
+      const showNotification = (message) => {
+        setNotification(message);
+        setTimeout(() => setNotification(''), 4000);
+      };
+
       const handleAddService = (item, subItem = null) => {
         const serviceToAdd = subItem ? { ...subItem, parentName: item.name } : { ...item };
         
@@ -655,14 +968,17 @@
           const updatedServices = [...selectedServices];
           updatedServices[existingServiceIndex].quantity += 1;
           setSelectedServices(updatedServices);
+          showNotification('🔥 Количество услуги увеличено!');
         } else {
           // Add new service
           setSelectedServices([...selectedServices, serviceToAdd]);
+          showNotification('✨ Услуга добавлена в корзину!');
         }
       };
 
       const handleRemoveService = (id) => {
         setSelectedServices(selectedServices.filter(service => service.id !== id));
+        showNotification('🗑️ Услуга удалена из корзины');
       };
 
       const handleQuantityChange = (id, newQuantity) => {
@@ -797,13 +1113,13 @@
           window.getSelection().addRange(range);
           document.execCommand('copy');
           window.getSelection().removeAllRanges();
-          alert('Предложение скопировано в буфер обмена!');
+          showNotification('📋 Предложение скопировано в буфер обмена!');
         }
       };
       
       const generateProposal = () => {
         if (selectedServices.length === 0) {
-          alert('Необходимо выбрать хотя бы одну услугу!');
+          showNotification('⚠️ Необходимо выбрать хотя бы одну услугу!');
           return;
         }
         
@@ -875,215 +1191,299 @@
         })
       })).filter(category => category.items.length > 0);
 
+      const activeService = services.find(s => s.category === activeCategory);
+
       return (
-        <div className="flex flex-col min-h-screen bg-gray-50">
-          <header className="bg-blue-600 text-white shadow-lg">
-            <div className="container mx-auto py-4 px-4">
-              <h1 className="text-2xl font-bold">Калькулятор услуг</h1>
-              <p className="text-blue-100">Расчет стоимости услуг для клиентов</p>
+        <div className="min-h-screen">
+          {/* Уведомления */}
+          {notification && (
+            <div className="notification">
+              <div className="glass-card px-6 py-4 text-gray-800 font-medium animate-slide-up">
+                {notification}
+              </div>
+            </div>
+          )}
+
+          {/* Заголовок */}
+          <header className="header-gradient text-white shadow-2xl relative">
+            <div className="container mx-auto py-12 px-6 relative z-10">
+              <div className="text-center">
+                <h1 className="text-6xl font-bold mb-4 animate-fade-in">
+                  <span className="icon-hover">💼</span> Калькулятор услуг
+                </h1>
+                <p className="text-2xl text-purple-100 animate-fade-in">
+                  ✨ Профессиональный расчет стоимости услуг для клиентов ✨
+                </p>
+                <div className="mt-6">
+                  <div className="inline-flex items-center space-x-4 bg-white bg-opacity-20 rounded-full px-6 py-3">
+                    <span className="animate-bounce-custom">⚡</span>
+                    <span className="font-medium">Быстро • Точно • Удобно</span>
+                    <span className="animate-bounce-custom">🚀</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </header>
           
           {showProposal ? (
-            <div className="container mx-auto p-4 bg-white mt-4 rounded-lg shadow-md">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Сформированное предложение</h2>
-                <div className="space-x-2">
-                  <button 
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                    onClick={copyToClipboard}
-                  >
-                    Копировать
-                  </button>
-                  <button 
-                    className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
-                    onClick={() => setShowProposal(false)}
-                  >
-                    Вернуться к калькулятору
-                  </button>
+            <div className="container mx-auto p-6 mt-8">
+              <div className="glass-card p-8 animate-slide-up">
+                <div className="flex justify-between items-center mb-8">
+                  <h2 className="text-4xl font-bold text-gray-800 flex items-center space-x-3">
+                    <span className="icon-hover">📄</span>
+                    <span>Сформированное предложение</span>
+                  </h2>
+                  <div className="flex space-x-4">
+                    <button 
+                      className="btn-primary text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center space-x-3 btn-animate"
+                      onClick={copyToClipboard}
+                    >
+                      <span className="icon-hover">📋</span>
+                      <span>Копировать</span>
+                    </button>
+                    <button 
+                      className="btn-secondary text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center space-x-3 btn-animate"
+                      onClick={() => setShowProposal(false)}
+                    >
+                      <span className="icon-hover">↩️</span>
+                      <span>Назад</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div 
-                ref={proposalRef}
-                className="p-4 border border-gray-300 rounded-lg whitespace-pre-wrap bg-gray-50 font-mono text-sm"
-              >
-                {proposalText}
+                <div 
+                  ref={proposalRef}
+                  className="p-8 border-2 border-purple-200 rounded-2xl bg-gradient-to-br from-purple-50 to-indigo-50 proposal-text font-mono text-base shadow-inner"
+                >
+                  {proposalText}
+                </div>
               </div>
             </div>
           ) : (
-            <div className="container mx-auto p-4 flex-grow flex flex-col md:flex-row gap-6">
-              <div className="w-full md:w-2/3 bg-white rounded-lg shadow-md p-4">
-                <div className="mb-4">
-                  <div className="flex items-center mb-4">
-                    <input
-                      type="text"
-                      placeholder="Поиск услуг..."
-                      className="w-full p-2 border border-gray-300 rounded-md"
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button 
-                      className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-                      onClick={() => setIsPriceListVisible(!isPriceListVisible)}
-                    >
-                      {isPriceListVisible ? 'Скрыть прайс' : 'Показать прайс'}
-                    </button>
-                  </div>
-                  
-                  {isPriceListVisible && (
-                    <div className="mb-4 overflow-x-auto">
-                      <table className="min-w-full border-collapse border border-gray-300">
-                        <thead>
-                          <tr className="bg-gray-100">
-                            <th className="border border-gray-300 px-2 py-1 text-xs">Услуга</th>
-                            <th className="border border-gray-300 px-2 py-1 text-xs">Примечание</th>
-                            <th className="border border-gray-300 px-2 py-1 text-xs">Нижний предел</th>
-                            <th className="border border-gray-300 px-2 py-1 text-xs">Верхний предел</th>
-                            <th className="border border-gray-300 px-2 py-1 text-xs">Действие</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {services.map(category => (
-                            category.items.map(item => (
-                              item.subItems ? 
-                                item.subItems.map(subItem => (
-                                  <tr key={subItem.id} className="border-b border-gray-300">
-                                    <td className="border border-gray-300 px-2 py-1 text-xs">{item.name} - {subItem.name}</td>
-                                    <td className="border border-gray-300 px-2 py-1 text-xs">{subItem.note || item.note || '-'}</td>
-                                    <td className="border border-gray-300 px-2 py-1 text-xs">{subItem.lowerPrice ? formatPrice(subItem.lowerPrice) : '-'}</td>
-                                    <td className="border border-gray-300 px-2 py-1 text-xs">{subItem.upperPrice ? formatPrice(subItem.upperPrice) : '-'}</td>
-                                    <td className="border border-gray-300 px-2 py-1 text-xs">
+            <div className="container mx-auto p-6 flex flex-col xl:flex-row gap-8">
+              {/* Основная область */}
+              <div className="flex-grow">
+                <div className="glass-card p-8 animate-slide-up">
+                  {/* Поиск и управление */}
+                  <div className="mb-8">
+                    <div className="flex flex-col lg:flex-row items-center gap-6 mb-8">
+                      <div className="relative flex-grow">
+                        <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
+                          <span className="text-purple-500 text-2xl icon-hover">🔍</span>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Поиск услуг..."
+                          className="w-full pl-16 pr-6 py-4 border-2 border-purple-200 rounded-2xl focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all text-lg bg-white bg-opacity-80"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                      </div>
+                      <button 
+                        className={`px-8 py-4 rounded-2xl font-bold text-lg transition-all btn-animate flex items-center space-x-3 ${
+                          isPriceListVisible 
+                            ? 'btn-danger text-white' 
+                            : 'btn-primary text-white'
+                        }`}
+                        onClick={() => setIsPriceListVisible(!isPriceListVisible)}
+                      >
+                        <span className="icon-hover">{isPriceListVisible ? '❌' : '📊'}</span>
+                        <span>{isPriceListVisible ? 'Скрыть прайс' : 'Показать прайс'}</span>
+                      </button>
+                    </div>
+                    
+                    {/* Прайс-лист */}
+                    {isPriceListVisible && (
+                      <div className="mb-8 overflow-x-auto glass-card p-6 animate-fade-in">
+                        <h3 className="text-2xl font-bold mb-6 text-gray-800 flex items-center space-x-3">
+                          <span className="icon-hover">📋</span>
+                          <span>Полный прайс-лист услуг</span>
+                        </h3>
+                        <div className="overflow-hidden rounded-2xl shadow-lg">
+                          <table className="min-w-full bg-white">
+                            <thead className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white">
+                              <tr>
+                                <th className="px-6 py-4 text-left text-lg font-bold">Услуга</th>
+                                <th className="px-6 py-4 text-left text-lg font-bold">Примечание</th>
+                                <th className="px-6 py-4 text-left text-lg font-bold">Мин. цена</th>
+                                <th className="px-6 py-4 text-left text-lg font-bold">Макс. цена</th>
+                                <th className="px-6 py-4 text-center text-lg font-bold">Действие</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                              {services.map(category => (
+                                category.items.map(item => (
+                                  item.subItems ? 
+                                    item.subItems.map(subItem => (
+                                      <tr key={subItem.id} className="hover:bg-purple-50 transition-colors">
+                                        <td className="px-6 py-4 text-sm font-medium text-gray-900">{item.name} - {subItem.name}</td>
+                                        <td className="px-6 py-4 text-sm text-gray-600">{subItem.note || item.note || '-'}</td>
+                                        <td className="px-6 py-4 text-sm font-bold text-green-600">{subItem.lowerPrice ? formatPrice(subItem.lowerPrice) + ' ₽' : '-'}</td>
+                                        <td className="px-6 py-4 text-sm font-bold text-red-600">{subItem.upperPrice ? formatPrice(subItem.upperPrice) + ' ₽' : '-'}</td>
+                                        <td className="px-6 py-4 text-center">
+                                          <button 
+                                            className="btn-success text-white px-4 py-2 rounded-xl text-sm font-bold btn-animate flex items-center space-x-2"
+                                            onClick={() => handleAddService(item, subItem)}
+                                          >
+                                            <span>➕</span>
+                                            <span>Добавить</span>
+                                          </button>
+                                        </td>
+                                      </tr>
+                                    ))
+                                  :
+                                  <tr key={item.id} className="hover:bg-purple-50 transition-colors">
+                                    <td className="px-6 py-4 text-sm font-medium text-gray-900">{item.name}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-600">{item.note || '-'}</td>
+                                    <td className="px-6 py-4 text-sm font-bold text-green-600">{item.lowerPrice ? formatPrice(item.lowerPrice) + ' ₽' : '-'}</td>
+                                    <td className="px-6 py-4 text-sm font-bold text-red-600">{item.upperPrice ? formatPrice(item.upperPrice) + ' ₽' : '-'}</td>
+                                    <td className="px-6 py-4 text-center">
                                       <button 
-                                        className="bg-green-500 text-white px-2 py-1 rounded-sm text-xs hover:bg-green-600 transition"
-                                        onClick={() => handleAddService(item, subItem)}
+                                        className="btn-success text-white px-4 py-2 rounded-xl text-sm font-bold btn-animate flex items-center space-x-2"
+                                        onClick={() => handleAddService(item)}
                                       >
-                                        Добавить
+                                        <span>➕</span>
+                                        <span>Добавить</span>
                                       </button>
                                     </td>
                                   </tr>
                                 ))
-                              :
-                              <tr key={item.id} className="border-b border-gray-300">
-                                <td className="border border-gray-300 px-2 py-1 text-xs">{item.name}</td>
-                                <td className="border border-gray-300 px-2 py-1 text-xs">{item.note || '-'}</td>
-                                <td className="border border-gray-300 px-2 py-1 text-xs">{item.lowerPrice ? formatPrice(item.lowerPrice) : '-'}</td>
-                                <td className="border border-gray-300 px-2 py-1 text-xs">{item.upperPrice ? formatPrice(item.upperPrice) : '-'}</td>
-                                <td className="border border-gray-300 px-2 py-1 text-xs">
-                                  <button 
-                                    className="bg-green-500 text-white px-2 py-1 rounded-sm text-xs hover:bg-green-600 transition"
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Категории */}
+                    <div className="flex flex-wrap gap-4 overflow-x-auto pb-4">
+                      {services.map(category => (
+                        <button
+                          key={category.category}
+                          className={`category-btn px-6 py-4 rounded-2xl whitespace-nowrap font-bold text-lg flex items-center space-x-3 ${
+                            activeCategory === category.category
+                              ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
+                              : 'bg-white bg-opacity-60 text-gray-700 hover:bg-opacity-80 border-2 border-purple-200 hover:border-purple-400'
+                          }`}
+                          onClick={() => setActiveCategory(category.category)}
+                        >
+                          <span className="text-2xl icon-hover">{category.icon}</span>
+                          <span>{category.category}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Услуги */}
+                  <div className="space-y-6">
+                    {filteredServices.map(category => (
+                      <div 
+                        key={category.category} 
+                        className={`${activeCategory === category.category ? 'block' : 'hidden'}`}
+                      >
+                        <div className="mb-8">
+                          <h2 className="text-4xl font-bold text-gray-800 flex items-center space-x-4 mb-2">
+                            <span className="text-5xl icon-hover">{category.icon}</span>
+                            <span>{category.category}</span>
+                          </h2>
+                          <div className={`h-1 w-32 bg-gradient-to-r ${category.color} rounded-full`}></div>
+                        </div>
+                        
+                        <div className="grid gap-6">
+                          {category.items.map(item => (
+                            <div key={item.id} className="service-card p-6 animate-fade-in">
+                              <h3 className="font-bold text-xl text-gray-800 mb-3">{item.name}</h3>
+                              {item.note && <p className="text-gray-600 mb-4 leading-relaxed">{item.note}</p>}
+                              
+                              {item.subItems ? (
+                                <div className="space-y-4">
+                                  {item.subItems.map(subItem => (
+                                    <div key={subItem.id} className="flex justify-between items-center bg-gradient-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border-2 border-purple-100">
+                                      <div className="flex-grow">
+                                        <p className="font-semibold text-gray-800 mb-2">{subItem.name}</p>
+                                        <p className="text-lg font-bold price-glow">
+                                          💰 {formatPrice(subItem.lowerPrice)} - {formatPrice(subItem.upperPrice)} ₽
+                                        </p>
+                                      </div>
+                                      <button
+                                        className="btn-success text-white px-6 py-3 rounded-xl font-bold text-lg flex items-center space-x-3 ml-4 btn-animate"
+                                        onClick={() => handleAddService(item, subItem)}
+                                      >
+                                        <span className="icon-hover">➕</span>
+                                        <span>Добавить</span>
+                                      </button>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div className="flex justify-between items-center">
+                                  <p className="text-2xl font-bold price-glow">
+                                    {item.customPrice === true 
+                                      ? "💼 Индивидуальный расчет"
+                                      : `💰 ${formatPrice(item.lowerPrice)} - ${formatPrice(item.upperPrice)} ₽`}
+                                  </p>
+                                  <button
+                                    className="btn-success text-white px-6 py-3 rounded-xl font-bold text-lg flex items-center space-x-3 btn-animate"
                                     onClick={() => handleAddService(item)}
                                   >
-                                    Добавить
+                                    <span className="icon-hover">➕</span>
+                                    <span>Добавить</span>
                                   </button>
-                                </td>
-                              </tr>
-                            ))
+                                </div>
+                              )}
+                            </div>
                           ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                  
-                  <div className="flex space-x-2 overflow-x-auto pb-2">
-                    {services.map(category => (
-                      <button
-                        key={category.category}
-                        className={`px-3 py-2 rounded-md whitespace-nowrap ${
-                          activeCategory === category.category
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                        }`}
-                        onClick={() => setActiveCategory(category.category)}
-                      >
-                        {category.category}
-                      </button>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
-                
-                <div className="space-y-4">
-                  {filteredServices.map(category => (
-                    <div 
-                      key={category.category} 
-                      className={`${activeCategory === category.category ? 'block' : 'hidden'}`}
-                    >
-                      <h2 className="text-lg font-semibold mb-2">{category.category}</h2>
-                      <div className="space-y-3">
-                        {category.items.map(item => (
-                          <div key={item.id} className="border border-gray-200 rounded-md p-3 hover:border-blue-300 transition">
-                            <h3 className="font-medium">{item.name}</h3>
-                            {item.note && <p className="text-sm text-gray-600 mt-1">{item.note}</p>}
-                            
-                            {item.subItems ? (
-                              <div className="mt-2 space-y-2">
-                                {item.subItems.map(subItem => (
-                                  <div key={subItem.id} className="flex justify-between items-center bg-gray-50 p-2 rounded">
-                                    <div>
-                                      <p className="text-sm">{subItem.name}</p>
-                                      <p className="text-xs text-gray-500">
-                                        {formatPrice(subItem.lowerPrice)} - {formatPrice(subItem.upperPrice)} ₽
-                                      </p>
-                                    </div>
-                                    <button
-                                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition text-sm"
-                                      onClick={() => handleAddService(item, subItem)}
-                                    >
-                                      Добавить
-                                    </button>
-                                  </div>
-                                ))}
-                              </div>
-                            ) : (
-                              <div className="flex justify-between items-center mt-2">
-                                <p className="text-sm">
-                                  {item.customPrice === true 
-                                    ? "Индивидуальный расчет"
-                                    : `${formatPrice(item.lowerPrice)} - ${formatPrice(item.upperPrice)} ₽`}
-                                </p>
-                                <button
-                                  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition text-sm"
-                                  onClick={() => handleAddService(item)}
-                                >
-                                  Добавить
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
               
-              <div className="w-full md:w-1/3">
-                <div className="bg-white rounded-lg shadow-md p-4 sticky top-4">
-                  <h2 className="text-lg font-semibold mb-4">Выбранные услуги</h2>
+              {/* Корзина */}
+              <div className="w-full xl:w-96">
+                <div className="glass-card p-6 sticky top-6 animate-slide-up">
+                  <h2 className="text-3xl font-bold mb-6 text-gray-800 flex items-center space-x-3">
+                    <span className="icon-hover">🛒</span>
+                    <span>Корзина</span>
+                    {selectedServices.length > 0 && (
+                      <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold animate-pulse-custom">
+                        {selectedServices.length}
+                      </span>
+                    )}
+                  </h2>
                   
                   {selectedServices.length === 0 ? (
-                    <p className="text-gray-500 italic">Нет выбранных услуг</p>
+                    <div className="text-center py-16">
+                      <div className="text-8xl mb-6 animate-bounce-custom">🛍️</div>
+                      <p className="text-gray-500 text-xl font-medium mb-4">Корзина пуста</p>
+                      <p className="text-gray-400">Добавьте услуги для расчета стоимости</p>
+                    </div>
                   ) : (
-                    <div className="space-y-4">
-                      {selectedServices.map(service => (
-                        <div key={service.id} className="border border-gray-200 rounded-md p-3">
-                          <div className="flex justify-between">
-                            <h3 className="font-medium text-sm">
+                    <div className="space-y-6">
+                      {selectedServices.map((service, index) => (
+                        <div key={service.id} className="border-2 border-purple-200 rounded-2xl p-4 bg-gradient-to-r from-white to-purple-50 animate-fade-in">
+                          <div className="flex justify-between items-start mb-4">
+                            <h3 className="font-semibold text-gray-800 leading-tight text-sm">
                               {service.parentName ? `${service.parentName} - ${service.name}` : service.name}
                             </h3>
                             <button
-                              className="text-red-500 hover:text-red-700"
+                              className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-xl transition-all icon-hover"
                               onClick={() => handleRemoveService(service.id)}
                             >
-                              ✕
+                              ❌
                             </button>
                           </div>
                           
-                          <div className="mt-2 space-y-2">
+                          <div className="space-y-4">
+                            {/* Регион */}
                             {service.regions && (
-                              <div className="flex items-center">
-                                <label className="text-xs text-gray-600 w-24">Регион:</label>
+                              <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center space-x-2">
+                                  <span className="icon-hover">🌍</span>
+                                  <span>Регион:</span>
+                                </label>
                                 <select
-                                  className="text-xs p-1 border border-gray-300 rounded w-full"
+                                  className="w-full text-sm p-3 border-2 border-purple-200 rounded-xl custom-select focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all bg-white"
                                   value={service.region}
                                   onChange={(e) => handleRegionChange(service.id, e.target.value)}
                                 >
@@ -1091,19 +1491,23 @@
                                     <option key={region} value={region}>{region}</option>
                                   ))}
                                 </select>
-                              </div>
-                            )}
-                            {service.regionNotes && service.regionNotes[service.region] && (
-                              <div className="text-xs text-gray-600 mt-1 ml-24">
-                                <span className="font-medium">Список регионов:</span> {service.regionNotes[service.region]}
+                                {service.regionNotes && service.regionNotes[service.region] && (
+                                  <div className="text-xs text-gray-600 mt-2 p-3 bg-yellow-50 rounded-xl border-l-4 border-yellow-400">
+                                    <span className="font-bold">Регионы:</span> {service.regionNotes[service.region]}
+                                  </div>
+                                )}
                               </div>
                             )}
                             
+                            {/* Город */}
                             {service.cities && (
-                              <div className="flex items-center">
-                                <label className="text-xs text-gray-600 w-24">Город:</label>
+                              <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center space-x-2">
+                                  <span className="icon-hover">🏙️</span>
+                                  <span>Город:</span>
+                                </label>
                                 <select
-                                  className="text-xs p-1 border border-gray-300 rounded w-full"
+                                  className="w-full text-sm p-3 border-2 border-purple-200 rounded-xl custom-select focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all bg-white"
                                   value={service.city}
                                   onChange={(e) => handleCityChange(service.id, e.target.value)}
                                 >
@@ -1114,11 +1518,15 @@
                               </div>
                             )}
                             
+                            {/* Тип */}
                             {service.types && (
-                              <div className="flex items-center">
-                                <label className="text-xs text-gray-600 w-24">Тип:</label>
+                              <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center space-x-2">
+                                  <span className="icon-hover">⚙️</span>
+                                  <span>Тип:</span>
+                                </label>
                                 <select
-                                  className="text-xs p-1 border border-gray-300 rounded w-full"
+                                  className="w-full text-sm p-3 border-2 border-purple-200 rounded-xl custom-select focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all bg-white"
                                   value={service.type}
                                   onChange={(e) => handleTypeChange(service.id, e.target.value)}
                                 >
@@ -1129,86 +1537,105 @@
                               </div>
                             )}
                             
-                            <div className="flex items-center">
-                              <label className="text-xs text-gray-600 w-24">Количество:</label>
+                            {/* Количество */}
+                            <div>
+                              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center space-x-2">
+                                <span className="icon-hover">📦</span>
+                                <span>Количество:</span>
+                              </label>
                               <div className="flex items-center">
                                 <button
-                                  className="bg-gray-200 px-2 py-1 rounded-l"
+                                  className="bg-purple-200 hover:bg-purple-300 px-4 py-3 rounded-l-xl font-bold transition-all text-purple-700"
                                   onClick={() => handleQuantityChange(service.id, service.quantity - 1)}
                                 >
-                                  -
+                                  ➖
                                 </button>
                                 <input
                                   type="number"
-                                  className="w-12 text-center border-t border-b border-gray-300"
+                                  className="w-20 text-center border-t-2 border-b-2 border-purple-200 py-3 font-bold text-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
                                   value={service.quantity}
                                   onChange={(e) => handleQuantityChange(service.id, parseInt(e.target.value) || 1)}
                                   min="1"
                                 />
                                 <button
-                                  className="bg-gray-200 px-2 py-1 rounded-r"
+                                  className="bg-purple-200 hover:bg-purple-300 px-4 py-3 rounded-r-xl font-bold transition-all text-purple-700"
                                   onClick={() => handleQuantityChange(service.id, service.quantity + 1)}
                                 >
-                                  +
+                                  ➕
                                 </button>
                               </div>
                             </div>
                             
+                            {/* Индивидуальная цена с слайдером */}
                             {service.customPrice && typeof service.customPrice === 'object' && (
                               <div>
-                                <div className="flex items-center">
-                                  <label className="text-xs text-gray-600 w-24">Диапазон цен:</label>
-                                  <span className="text-xs">
+                                <div className="flex items-center justify-between mb-3">
+                                  <label className="text-sm font-bold text-gray-700 flex items-center space-x-2">
+                                    <span className="icon-hover">💰</span>
+                                    <span>Диапазон цен:</span>
+                                  </label>
+                                  <span className="text-sm font-bold text-purple-600">
                                     {formatPrice(service.customPrice.min)} - {formatPrice(service.customPrice.max)} ₽
                                   </span>
                                 </div>
-                                <div className="flex items-center mt-1">
-                                  <label className="text-xs text-gray-600 w-24">Цена (₽):</label>
+                                <div className="space-y-3">
                                   <input
                                     type="range"
                                     className="w-full custom-range"
                                     min={service.customPrice.min}
                                     max={service.customPrice.max}
-                                    step={100}
+                                    step={1000}
                                     value={service.customPrice.current}
                                     onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value), 'current')}
                                   />
-                                  <input
-                                    type="number"
-                                    className="text-xs p-1 border border-gray-300 rounded ml-2 w-20"
-                                    value={service.customPrice.current}
-                                    onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'current')}
-                                    min={service.customPrice.min}
-                                    max={service.customPrice.max}
-                                  />
-                                </div>
-                                <div className="flex items-center mt-1">
-                                  <label className="text-xs text-gray-600 w-24">Мин. цена:</label>
-                                  <input
-                                    type="number"
-                                    className="text-xs p-1 border border-gray-300 rounded w-20"
-                                    value={service.customPrice.min}
-                                    onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'min')}
-                                  />
-                                  <label className="text-xs text-gray-600 ml-2 mr-1">Макс. цена:</label>
-                                  <input
-                                    type="number"
-                                    className="text-xs p-1 border border-gray-300 rounded w-20"
-                                    value={service.customPrice.max}
-                                    onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'max')}
-                                  />
+                                  <div className="flex items-center space-x-3">
+                                    <label className="text-sm font-bold text-gray-700 whitespace-nowrap">Цена:</label>
+                                    <input
+                                      type="number"
+                                      className="flex-grow text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all font-bold"
+                                      value={service.customPrice.current}
+                                      onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'current')}
+                                      min={service.customPrice.min}
+                                      max={service.customPrice.max}
+                                    />
+                                    <span className="text-sm font-bold text-purple-600">₽</span>
+                                  </div>
+                                  <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                      <label className="block text-xs font-bold text-gray-600 mb-1">Мин:</label>
+                                      <input
+                                        type="number"
+                                        className="w-full text-xs p-2 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                        value={service.customPrice.min}
+                                        onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'min')}
+                                      />
+                                    </div>
+                                    <div>
+                                      <label className="block text-xs font-bold text-gray-600 mb-1">Макс:</label>
+                                      <input
+                                        type="number"
+                                        className="w-full text-xs p-2 border-2 border-purple-200 rounded-lg focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all"
+                                        value={service.customPrice.max}
+                                        onChange={(e) => handleCustomPriceChange(service.id, parseInt(e.target.value) || 0, 'max')}
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             )}
                             
+                            {/* Ручной ввод цены */}
                             {service.customPrice && service.customPrice !== true && typeof service.customPrice !== 'object' && (
-                              <div className="flex items-center">
-                                <label className="text-xs text-gray-600 w-24">Цена (₽):</label>
+                              <div>
+                                <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center space-x-2">
+                                  <span className="icon-hover">💰</span>
+                                  <span>Цена (₽):</span>
+                                </label>
                                 <input
                                   type="text"
                                   inputMode="numeric"
                                   pattern="[0-9]*"
-                                  className="text-xs p-1 border border-gray-300 rounded w-full"
+                                  className="w-full text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-4 focus:ring-purple-200 transition-all font-bold"
                                   placeholder="Введите стоимость"
                                   value={service.customPrice}
                                   onChange={(e) => handleCustomPriceChange(service.id, e.target.value)}
@@ -1216,59 +1643,80 @@
                               </div>
                             )}
                             
+                            {/* Слайдер цены для обычных услуг */}
                             {!service.customPrice && (
                               <div>
-                                <div className="flex items-center">
-                                  <label className="text-xs text-gray-600 w-24">Диапазон цен:</label>
-                                  <span className="text-xs">
+                                <div className="flex items-center justify-between mb-3">
+                                  <label className="text-sm font-bold text-gray-700 flex items-center space-x-2">
+                                    <span className="icon-hover">💰</span>
+                                    <span>Диапазон цен:</span>
+                                  </label>
+                                  <span className="text-sm font-bold text-purple-600">
                                     {formatPrice(service.lowerPrice)} - {formatPrice(service.upperPrice)} ₽
                                   </span>
                                 </div>
-                                <div className="flex items-center mt-1">
-                                  <label className="text-xs text-gray-600 w-24">Цена (₽):</label>
+                                <div className="space-y-3">
                                   <input
                                     type="range"
                                     className="w-full custom-range"
                                     min={service.lowerPrice}
                                     max={service.upperPrice}
-                                    step={100}
+                                    step={500}
                                     value={service.manualPrice || (service.lowerPrice + service.upperPrice) / 2}
                                     onChange={(e) => handleManualPriceChange(service.id, parseInt(e.target.value))}
                                   />
-                                  <input
-                                    type="number"
-                                    className="text-xs p-1 border border-gray-300 rounded ml-2 w-20"
-                                    value={service.manualPrice || (service.lowerPrice + service.upperPrice) / 2}
-                                    onChange={(e) => handleManualPriceChange(service.id, parseInt(e.target.value) || service.lowerPrice)}
-                                    min={service.lowerPrice}
-                                    max={service.upperPrice}
-                                  />
+                                  <div className="flex items-center space-x-3">
+                                    <label className="text-sm font-bold text-gray-700 whitespace-nowrap">Цена:</label>
+                                    <input
+                                      type="number"
+                                      className="flex-grow text-sm p-3 border-2 border-purple-200 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all font-bold"
+                                      value={service.manualPrice || (service.lowerPrice + service.upperPrice) / 2}
+                                      onChange={(e) => handleManualPriceChange(service.id, parseInt(e.target.value) || service.lowerPrice)}
+                                      min={service.lowerPrice}
+                                      max={service.upperPrice}
+                                    />
+                                    <span className="text-sm font-bold text-purple-600">₽</span>
+                                  </div>
                                 </div>
                               </div>
                             )}
                             
+                            {/* Пошлина */}
                             {service.fee && (
-                              <div className="flex items-center">
-                                <label className="text-xs text-gray-600 w-24">Пошлина:</label>
-                                <span className="text-xs">{service.fee}</span>
+                              <div className="bg-yellow-50 p-3 rounded-xl border-l-4 border-yellow-400">
+                                <div className="flex items-center space-x-2">
+                                  <span className="icon-hover">📋</span>
+                                  <span className="text-sm font-bold text-gray-700">Пошлина:</span>
+                                  <span className="text-sm text-yellow-700 font-bold">{service.fee}</span>
+                                </div>
                               </div>
                             )}
                           </div>
                         </div>
                       ))}
                       
-                      <div className="border-t pt-4 mt-4">
-                        <div className="flex justify-between items-center">
-                          <h3 className="font-semibold">Итого:</h3>
-                          <span className="text-xl font-bold text-blue-600">{formatPrice(totalPrice)} ₽</span>
+                      {/* Итого */}
+                      <div className="border-t-4 border-purple-300 pt-6 mt-8">
+                        <div className="bg-gradient-to-r from-purple-100 to-indigo-100 p-6 rounded-2xl border-2 border-purple-300">
+                          <div className="flex justify-between items-center mb-6">
+                            <h3 className="text-2xl font-bold text-gray-800 flex items-center space-x-2">
+                              <span className="icon-hover">💎</span>
+                              <span>Итого:</span>
+                            </h3>
+                            <span className="text-4xl font-bold price-glow animate-pulse-custom">
+                              {formatPrice(totalPrice)} ₽
+                            </span>
+                          </div>
+                          
+                          <button
+                            className="w-full btn-primary text-white py-4 rounded-2xl font-bold text-xl flex items-center justify-center space-x-3 btn-animate"
+                            onClick={generateProposal}
+                          >
+                            <span className="icon-hover">📄</span>
+                            <span>Сформировать предложение</span>
+                            <span className="icon-hover">✨</span>
+                          </button>
                         </div>
-                        
-                        <button
-                          className="w-full mt-4 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition font-medium"
-                          onClick={generateProposal}
-                        >
-                          Сформировать предложение
-                        </button>
                       </div>
                     </div>
                   )}
@@ -1277,11 +1725,16 @@
             </div>
           )}
           
-          <footer className="bg-gray-800 text-white py-4 mt-8">
-            <div className="container mx-auto px-4">
+          {/* Футер */}
+          <footer className="bg-gray-900 text-white py-12 mt-16">
+            <div className="container mx-auto px-6">
               <div className="flex flex-col md:flex-row justify-between items-center">
-                <div>
-                  <p className="text-sm text-gray-300">© 2025 Калькулятор услуг</p>
+                <div className="text-center md:text-left">
+                  <p className="text-gray-300 text-lg">© 2025 Калькулятор услуг</p>
+                  <p className="text-gray-400 mt-2">Профессиональные решения для вашего бизнеса ✨</p>
+                </div>
+                <div className="mt-6 md:mt-0">
+                  <p className="text-gray-400">Сделано с ❤️ для эффективной работы</p>
                 </div>
               </div>
             </div>
